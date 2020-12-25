@@ -1,1 +1,3 @@
-# CcCoordTrans
+# CcCoordTrans  
+1. 采用类罗德里格矩阵计算两组三维坐标的转换参数  
+2. 采用类ICP的方法精化求解参数
