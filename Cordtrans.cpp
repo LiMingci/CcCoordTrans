@@ -1,8 +1,6 @@
-
-#include "×ø±ê×ª»».h"
 #include "Cordtrans.h"
 #include "Openfile.h"
-#include <string.h>
+#include <string>
 #define MEASURE 1
 #define REFERENCE 2
 #define PI 3.14159265359
@@ -22,7 +20,7 @@
  	Ncount2=num2.GetmemNum();
  }
 
- //¹¹Ôìº¯Êı
+//¹¹Ôìº¯Êı
  CCordtrans::CCordtrans():R(3,3),T(3,1)
  {
 	txt="\n";
@@ -40,7 +38,7 @@ CCordtrans::~CCordtrans()
 }
 
 ////¼ÆËã×ª»»²ÎÊı
-void CCordtrans::CalPar(CMatrix &RX, CMatrix &TX)
+void CCordtrans::CalPar(CMatrix& RX, CMatrix& TX)
 {
 	
 	CMatrix M(3*Ncount2,6);//ÏµÊı¾ØÕó
@@ -118,16 +116,16 @@ void CCordtrans::CalPar(CMatrix &RX, CMatrix &TX)
 	
 }
 
-//¼ÆËã×ª»»²ÎÊı
+//¼ÆËãĞı×ª¾ØÕó
 
-void CCordtrans::CalPar(CCrdNum crd1, CCrdNum crd2, CMatrix &RX, CMatrix &TX)
+void CCordtrans::CalPar(CCrdNum crd1, CCrdNum crd2, CMatrix& RX, CMatrix& TX)
 {
-	CMatrix M(3*crd2.GetmemNum(),6);//ÏµÊı¾ØÕó
-	CMatrix D(6,1);//Ïà¹Ø²ÎÊı
-	CMatrix L(3*crd2.GetmemNum(),1);//³£ÊıÏî
+	CMatrix M(3*crd2.GetmemNum(),6);//???????
+	CMatrix D(6,1);//??????
+	CMatrix L(3*crd2.GetmemNum(),1);//??????
 	CMatrix InvM(6,6);
 	double a,b,c;
-	for(int i=0;i<crd2.GetmemNum();i++)//»ñµÃÏµÊı¾ØÕóºÍ³£ÊıÏòÁ¿
+	for(int i=0;i<crd2.GetmemNum();i++)//??????????????????
 	{
 		
 		M.SetElement(3*i,0,0.00);
@@ -162,7 +160,7 @@ void CCordtrans::CalPar(CCrdNum crd1, CCrdNum crd2, CMatrix &RX, CMatrix &TX)
 	b=D.GetElement(1,0);
 	c=D.GetElement(2,0);
 	CMatrix I_S(3,3);
-	CMatrix U(3,1);//²ÎÊı¼ÆËãÖĞ¼ä±äÁ¿
+	CMatrix U(3,1);//?????????§Ş????
 	I_S.SetElement(0,0,1);
 	I_S.SetElement(0,1,c);
 	I_S.SetElement(0,2,-b);
@@ -177,9 +175,9 @@ void CCordtrans::CalPar(CCrdNum crd1, CCrdNum crd2, CMatrix &RX, CMatrix &TX)
 	U.SetElement(2,0,D.GetElement(5,0));
 	if(I_S.InvertGaussJordan())
 	{
-		T=(I_S*U)*(-1);//»ñµÃÆ½ÒÆ²ÎÊı
+		T=(I_S*U)*(-1);//?????????
 	}
-	R.SetElement(0,0,(1+a*a-b*b-c*c));//¼ÆËãĞı×ª¾ØÕó
+	R.SetElement(0,0,(1+a*a-b*b-c*c));//???????????
 	R.SetElement(0,1,(2*(a*b-c)));
 	R.SetElement(0,2,(2*(a*c+b)));
 	R.SetElement(1,0,(2*(a*b+c)));
@@ -197,17 +195,17 @@ void CCordtrans::CalPar(CCrdNum crd1, CCrdNum crd2, CMatrix &RX, CMatrix &TX)
 }
 
 
-void CCordtrans::Translate(CCrdNum &Coord1to2)//¼ÆËã×ª»»×ø±ê
+void CCordtrans::Translate(CCrdNum& Coord1to2)//???????????
 {
 	Coord1to2.Init(Ncount1);
-	CMatrix CoordM1(3,Ncount1);//²âÁ¿µã×ø±ê¾ØÕó
-	CMatrix CoordM2(3,Ncount1);//²âÁ¿µã×ª»»ºó×ø±ê¾ØÕó
-	CMatrix TM(3,Ncount1);//×ª»»ÖĞ¼ä¾ØÕó
-	double T1,T2,T3;//Èı¸öÆ½ÒÆ²ÎÊı
-	T1=T.GetElement(0,0);//´ÓÆ½ÒÆ²ÎÊıÏòÁ¿ÖĞÈ¡Öµ
+	CMatrix CoordM1(3,Ncount1);//?????????????
+	CMatrix CoordM2(3,Ncount1);//??????????????????
+	CMatrix TM(3,Ncount1);//????§Ş????
+	double T1,T2,T3;//??????????
+	T1=T.GetElement(0,0);//????????????????
 	T2=T.GetElement(1,0);
 	T3=T.GetElement(2,0);
-	for(int i=0;i<Ncount1;i++)//¸ø²âÁ¿µã×ø±ê¾ØÕó¸³Öµ
+	for(int i=0;i<Ncount1;i++)//????????????????
 	{
 		CoordM1.SetElement(0,i,Coord1.Getdata(i,1));
 		CoordM1.SetElement(1,i,Coord1.Getdata(i,2));
@@ -216,7 +214,7 @@ void CCordtrans::Translate(CCrdNum &Coord1to2)//¼ÆËã×ª»»×ø±ê
 		TM.SetElement(1,i,T2);
 		TM.SetElement(2,i,T3);
 	}
-	CoordM2=R*CoordM1+TM;//×ø±ê×ª»»
+	CoordM2=R*CoordM1+TM;//???????
 	for (int i=0;i<Ncount1;i++)
 	{
 		Coord1to2.Setdata(i,Coord1.Getdata(i),CoordM2.GetElement(0,i),CoordM2.GetElement(1,i),CoordM2.GetElement(2,i));
@@ -225,18 +223,18 @@ void CCordtrans::Translate(CCrdNum &Coord1to2)//¼ÆËã×ª»»×ø±ê
 	
 }
 
-void CCordtrans::Translate(CMatrix R0,CMatrix T0,CCrdNum crd1,CCrdNum &Coord1to2)//¼ÆËã×ª»»×ø±ê
+void CCordtrans::Translate(CMatrix R0,CMatrix T0,CCrdNum crd1,CCrdNum& Coord1to2)//???????????
 {
 	int count1=crd1.GetmemNum();
 	Coord1to2.Init(count1);
-	CMatrix CoordM1(3,count1);//²âÁ¿µã×ø±ê¾ØÕó
-	CMatrix CoordM2(3,count1);//²âÁ¿µã×ª»»ºó×ø±ê¾ØÕó
-	CMatrix TM(3,count1);//×ª»»ÖĞ¼ä¾ØÕó
-	double T1,T2,T3;//Èı¸öÆ½ÒÆ²ÎÊı
-	T1=T0.GetElement(0,0);//´ÓÆ½ÒÆ²ÎÊıÏòÁ¿ÖĞÈ¡Öµ
+	CMatrix CoordM1(3,count1);//?????????????
+	CMatrix CoordM2(3,count1);//??????????????????
+	CMatrix TM(3,count1);//????§Ş????
+	double T1,T2,T3;//??????????
+	T1=T0.GetElement(0,0);//????????????????
 	T2=T0.GetElement(1,0);
 	T3=T0.GetElement(2,0);
-	for(int i=0;i<count1;i++)//¸ø²âÁ¿µã×ø±ê¾ØÕó¸³Öµ
+	for(int i=0;i<count1;i++)//????????????????
 	{
 		CoordM1.SetElement(0,i,crd1.Getdata(i,1));
 		CoordM1.SetElement(1,i,crd1.Getdata(i,2));
@@ -245,7 +243,7 @@ void CCordtrans::Translate(CMatrix R0,CMatrix T0,CCrdNum crd1,CCrdNum &Coord1to2
 		TM.SetElement(1,i,T2);
 		TM.SetElement(2,i,T3);
 	}
-	CoordM2=R0*CoordM1+TM;//×ø±ê×ª»»
+	CoordM2=R0*CoordM1+TM;//???????
 	for (int i=0;i<count1;i++)
 	{
 		Coord1to2.Setdata(i,crd1.Getdata(i),CoordM2.GetElement(0,i),CoordM2.GetElement(1,i),CoordM2.GetElement(2,i));
@@ -253,9 +251,9 @@ void CCordtrans::Translate(CMatrix R0,CMatrix T0,CCrdNum crd1,CCrdNum &Coord1to2
 	}
 }
 
-//¾«È·¼ÆËã×ª»»²ÎÊı
+//??????????????
 
-void CCordtrans::PrecisionCalPar(CCrdNum crd1, CCrdNum crd2, CMatrix &RX, CMatrix &TX)
+void CCordtrans::PrecisionCalPar(CCrdNum crd1, CCrdNum crd2, CMatrix& RX, CMatrix& TX)
 {
 	CMatrix R1(3,3),T1(3,1);
 	CMatrix R2(3,3),T2(3,1);
@@ -271,9 +269,9 @@ void CCordtrans::PrecisionCalPar(CCrdNum crd1, CCrdNum crd2, CMatrix &RX, CMatri
 }
 
 
-//¾«È·¼ÆËã×ª»»²ÎÊı
+//??????????????
 
-void CCordtrans::PrecisionCalPar(CMatrix &RX, CMatrix &TX)
+void CCordtrans::PrecisionCalPar(CMatrix& RX, CMatrix& TX)
 {
 	CMatrix R1(3,3),T1(3,1);
 	CMatrix R2(3,3),T2(3,1);
@@ -288,8 +286,8 @@ void CCordtrans::PrecisionCalPar(CMatrix &RX, CMatrix &TX)
 	
 }
 
-//Ñ°ÕÒÍ¬Ãûµã
-void CCordtrans::Findsamename(CCrdNum &crd3, CCrdNum &crd4)
+//????????
+void CCordtrans::FindSameName(CCrdNum& crd3, CCrdNum& crd4)
 {
 	int Pcount=0;
     CString tes;
@@ -305,7 +303,7 @@ void CCordtrans::Findsamename(CCrdNum &crd3, CCrdNum &crd4)
 		
 	}
 	tes.Format("%d",Pcount);
-	tes=tes+"µãÃûÆ¥ÅäÉÏµÄµãÊı";
+	tes=tes+"?????????????";
 	AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
 	crd3.Init(Pcount);
 	crd4.Init(Pcount);
@@ -325,7 +323,7 @@ void CCordtrans::Findsamename(CCrdNum &crd3, CCrdNum &crd4)
 
 }
 
-void CCordtrans::Findsamename(CCrdNum crd1, CCrdNum crd2, CCrdNum &crd3, CCrdNum &crd4)//Ñ°ÕÒÍ¬Ãûµã
+void CCordtrans::FindSameName(CCrdNum crd1, CCrdNum crd2, CCrdNum& crd3, CCrdNum& crd4)//????????
 {
 	int Pcount=0;
     CString tes;
@@ -343,7 +341,7 @@ void CCordtrans::Findsamename(CCrdNum crd1, CCrdNum crd2, CCrdNum &crd3, CCrdNum
 		
 	}
 	tes.Format("%d",Pcount);
-	tes=tes+"µãÃûÆ¥ÅäÉÏµÄµãÊı";
+	tes=tes+"?????????????";
 	AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
 	crd3.Init(Pcount);
 	crd4.Init(Pcount);
@@ -363,7 +361,7 @@ void CCordtrans::Findsamename(CCrdNum crd1, CCrdNum crd2, CCrdNum &crd3, CCrdNum
 
 }
 
-void CCordtrans::Distillpoint(CCrdNum &crd3, CCrdNum &crd4)//ÌáÈ¡ËÄ¸öËæ»úµã
+void CCordtrans::DistillPoint(CCrdNum& crd3, CCrdNum& crd4)//???????????
 {
 	double edge1=0.0,edge2=0.0,edge3=0.0,edge4=0.0,edge5=0.0,edge6=0.0;
 	double distance1=0.0,distance2=0.0,distance3=0.0,distance4=0.0,distance5=0.0,distance6=0.0;
@@ -388,11 +386,11 @@ void CCordtrans::Distillpoint(CCrdNum &crd3, CCrdNum &crd4)//ÌáÈ¡ËÄ¸öËæ»úµã
 
 	do
 	{
-		srand((unsigned)time(NULL));//Ëæ»úÊı²úÉúÖÖ×Ó
-		for (int i=0;i<M;i++)//´Ó²Î¿¼µãÖĞ»ñµÃËÄ¸öËæ»úµÄ²»Í¬ÔªËØ
+		srand((unsigned)time(NULL));//?????????????
+		for (int i=0;i<M;i++)//??¦Ï????§İ???????????????
 		{
-			n=rand()%Ncount2;//²úÉúÒ»Ëæ»úÊı
-			if(strcmp(crd40.Getdata(n),"\0")==0)//È¡µã
+			n=rand()%Ncount2;//??????????
+			if(strcmp(crd40.Getdata(n),"\0")==0)//???
 			{
 				crd40.Setdata(n,"NOName",0.0,0.0,0.0);
 				crd4.Setdata(i,Coord2.Getdata(n),Coord2.Getdata(n,1),Coord2.Getdata(n,2),Coord2.Getdata(n,3));
@@ -474,7 +472,7 @@ void CCordtrans::Distillpoint(CCrdNum &crd3, CCrdNum &crd4)//ÌáÈ¡ËÄ¸öËæ»úµã
 
 
 
-double CCordtrans::Calthreshold(CCrdNum crd1, CCrdNum crd2)//¼ÆËãÆ¥ÅäãĞÖµ
+double CCordtrans::CalThreshold(CCrdNum crd1, CCrdNum crd2)//??????????
 {
 	double Maxdist=0.0;
 	double Dist=0.0;
@@ -495,14 +493,14 @@ double CCordtrans::Calthreshold(CCrdNum crd1, CCrdNum crd2)//¼ÆËãÆ¥ÅäãĞÖµ
 	} 
 	else
 	{
-		AfxMessageBox("Í¬ÃûµãÊı²»ÏàµÈ",MB_OK|MB_ICONINFORMATION);
+		AfxMessageBox("????????????",MB_OK|MB_ICONINFORMATION);
 		
 	}
 	return threshold;
 	
 }
 
-void CCordtrans::Finddistancepoint(int FIGURE,CCrdNum &crd3, CCrdNum &crd4)//Ñ°ÕÒ¾àÀëÂú×ãÒ»¶¨ãĞÖµµÄµã¶Ô
+void CCordtrans::FindDistancePoint(int FIGURE,CCrdNum& crd3, CCrdNum& crd4)//????????????????????
 {
 	int scount=0;
 	CCrdNum crd30;
@@ -519,16 +517,16 @@ void CCordtrans::Finddistancepoint(int FIGURE,CCrdNum &crd3, CCrdNum &crd4)//Ñ°Õ
 	switch (FIGURE)
 	{
 	case 1:
-		Findsamename(crd30,crd40);
+		FindSameName(crd30,crd40);
 		break;
 	case 2:
-		Distillpoint(crd30,crd40);
+		DistillPoint(crd30,crd40);
 		break;
 	}
 	
 	PrecisionCalPar(crd30,crd40,R0,T0);
  	Translate(R0,T0,crd30,crd31);
- 	bound=Calthreshold(crd31,crd40);
+ 	bound=CalThreshold(crd31,crd40);
 	Translate(R0,T0,Coord1,crd1to2);
 
 	for (int i=0;i<Ncount2;i++)
@@ -550,7 +548,7 @@ void CCordtrans::Finddistancepoint(int FIGURE,CCrdNum &crd3, CCrdNum &crd4)//Ñ°Õ
 		}
 	}
 	tes.Format("%d",scount);
-	tes=tes+"¾àÀëÆ¥ÅäÉÏµÄµãÊı";
+	tes=tes+"?????????????";
 	AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
 	crd3.Init(scount);
 	crd4.Init(scount);
@@ -581,7 +579,7 @@ void CCordtrans::Finddistancepoint(int FIGURE,CCrdNum &crd3, CCrdNum &crd4)//Ñ°Õ
 }
 
 
-CString  CCordtrans::Distancematch(CCrdNum &Coord1to2)//¾àÀëÆ¥Åä
+CString  CCordtrans::DistanceMatch(CCrdNum& Coord1to2)//???????
 {
 	CString txt0="\n";
 	CCrdNum crd3;
@@ -589,14 +587,14 @@ CString  CCordtrans::Distancematch(CCrdNum &Coord1to2)//¾àÀëÆ¥Åä
 	CCrdNum crd1to2;
 	CMatrix R0(3,3);
 	CMatrix T0(3,1);
-	Finddistancepoint(1,crd3,crd4);
+	FindDistancePoint(1,crd3,crd4);
 	PrecisionCalPar(crd3,crd4,R0,T0);
 	Translate(R0,T0,Coord1,crd1to2);
 	Coord1to2=crd1to2;
 	return Print(R0,T0,crd3,crd4,crd1to2);
 }
 
-CString CCordtrans::Distancematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
+CString CCordtrans::DistanceMatch(CMatrix& R, CMatrix& T, CCrdNum& Coord1to2)
 {
 	CString txt0="\n";
 	CCrdNum crd3;
@@ -604,7 +602,7 @@ CString CCordtrans::Distancematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
 	CCrdNum crd1to2;
 	CMatrix R0(3,3);
 	CMatrix T0(3,1);
-	Finddistancepoint(1,crd3,crd4);
+	FindDistancePoint(1,crd3,crd4);
 	PrecisionCalPar(crd3,crd4,R0,T0);
 	R=R0;
 	T=T0;
@@ -614,7 +612,7 @@ CString CCordtrans::Distancematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
 	
 }
 
-CString  CCordtrans::Pointnamematch(CCrdNum &Coord1to2)//µãÃûÆ¥Åä¼ÆËã
+CString  CCordtrans::PointNameMatch(CCrdNum& Coord1to2)//??????????
 {
 	CString txt0="\n";
 	CCrdNum crd3;
@@ -622,14 +620,14 @@ CString  CCordtrans::Pointnamematch(CCrdNum &Coord1to2)//µãÃûÆ¥Åä¼ÆËã
 	CCrdNum crd1to2;
 	CMatrix R0(3,3);
 	CMatrix T0(3,1);
-	Findsamename(crd3, crd4);
+	FindSameName(crd3, crd4);
 	PrecisionCalPar(crd3,crd4,R0,T0);
 	Translate(R0,T0,Coord1,crd1to2);
 	Coord1to2=crd1to2;
 	return Print(R0,T0,crd3,crd4,crd1to2);
 }
 
-CString CCordtrans::Pointnamematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
+CString CCordtrans::PointNameMatch(CMatrix& R, CMatrix& T, CCrdNum& Coord1to2)
 {
 	CString txt0="\n";
 	CCrdNum crd3;
@@ -637,7 +635,7 @@ CString CCordtrans::Pointnamematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
 	CCrdNum crd1to2;
 	CMatrix R0(3,3);
 	CMatrix T0(3,1);
-	Findsamename(crd3, crd4);
+	FindSameName(crd3, crd4);
 	PrecisionCalPar(crd3,crd4,R0,T0);
 	//CalPar(crd3,crd4,R0,T0);
 	R=R0;
@@ -649,7 +647,7 @@ CString CCordtrans::Pointnamematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
 }
 
 
-CString  CCordtrans::Initialmatch(CCrdNum &Coord1to2)//Ë³ĞòÆ¥Åä
+CString  CCordtrans::InitialMatch(CCrdNum& Coord1to2)//??????
 {
 	CString txt0="\n";
 	CMatrix R0(3,3);
@@ -662,7 +660,7 @@ CString  CCordtrans::Initialmatch(CCrdNum &Coord1to2)//Ë³ĞòÆ¥Åä
 	
 }
 
-CString CCordtrans::Initialmatch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
+CString CCordtrans::InitialMatch(CMatrix& R, CMatrix& T, CCrdNum& Coord1to2)
 {
 	CString txt0="\n";
 	CMatrix R0(3,3);
@@ -679,7 +677,7 @@ CString CCordtrans::Initialmatch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
 }
 
 
-CString  CCordtrans::Freematch(CCrdNum &Coord1to2)//×ÔÓÉÆ¥Åä
+CString  CCordtrans::FreeMatch(CCrdNum& Coord1to2)//???????
 {
 	CString txt0="\n";
 	CCrdNum crd3;
@@ -687,7 +685,7 @@ CString  CCordtrans::Freematch(CCrdNum &Coord1to2)//×ÔÓÉÆ¥Åä
 	CCrdNum crd1to2;
 	CMatrix R0(3,3);
 	CMatrix T0(3,1);
-	Finddistancepoint(2,crd3,crd4);
+	FindDistancePoint(2,crd3,crd4);
 	PrecisionCalPar(crd3,crd4,R0,T0);
 	Translate(R0,T0,Coord1,crd1to2);
 	Coord1to2=crd1to2;
@@ -695,7 +693,7 @@ CString  CCordtrans::Freematch(CCrdNum &Coord1to2)//×ÔÓÉÆ¥Åä
 }
 
 
-CString CCordtrans::Freematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
+CString CCordtrans::FreeMatch(CMatrix& R, CMatrix& T, CCrdNum& Coord1to2)
 {
 	CString txt0="\n";
 	CCrdNum crd3;
@@ -703,7 +701,7 @@ CString CCordtrans::Freematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
 	CCrdNum crd1to2;
 	CMatrix R0(3,3);
 	CMatrix T0(3,1);
-	Finddistancepoint(2,crd3,crd4);
+	FindDistancePoint(2,crd3,crd4);
 	PrecisionCalPar(crd3,crd4,R0,T0);
 	R=R0;
 	T=T0;
@@ -716,7 +714,7 @@ CString CCordtrans::Freematch(CMatrix &R, CMatrix &T, CCrdNum &Coord1to2)
 
 
 
-CString CCordtrans::Differencebetween(CCrdNum crd1, CCrdNum crd2)//¼ÆËãµãÎ»Æ«²î
+CString CCordtrans::Differencebetween(CCrdNum crd1, CCrdNum crd2)//?????¦Ë???
 {
 	CString txt0="\n";
 	int memsize1=crd1.GetmemNum();
@@ -728,7 +726,7 @@ CString CCordtrans::Differencebetween(CCrdNum crd1, CCrdNum crd2)//¼ÆËãµãÎ»Æ«²î
 	CString CRMS;
 	if (memsize1=memsize2)
 	{
-		txt0=txt0+"²Î¿¼µã"+"  "+"²âÁ¿µã"+"     "+"¦¤X"+"       "+"¦¤Y"+"       "+"¦¤Z"+"       "+"¦¤s"+"\n";
+		txt0=txt0+"?¦Ï???"+"  "+"??????"+"     "+"??X"+"       "+"??Y"+"       "+"??Z"+"       "+"??s"+"\n";
 		for (int i=0;i<memsize2;i++)
 		{
 			detX.Format("%0.4lf",crd2.Getdata(i,1)-crd1.Getdata(i,1));
@@ -741,14 +739,14 @@ CString CCordtrans::Differencebetween(CCrdNum crd1, CCrdNum crd2)//¼ÆËãµãÎ»Æ«²î
 		}
 		RMS=sqrt(RMS/memsize2);
 		CRMS.Format("%0.4lf",RMS);
-		txt0=txt0+"µãÎ»Æ«²îµÄ¾ù·½¸ù£¨RMS£©£º";
+		txt0=txt0+"??¦Ë???????????RMS????";
 		txt0=txt0+CRMS;
 
 	}
 	else
 	{
-		AfxMessageBox("ÊäÈëµÄÁ½¸öµã¼¯ÖĞµãµÄ¸öÊı²»ÏàµÈ",MB_OK|MB_ICONINFORMATION);
-		txt0=txt0+"ÊäÈëÓĞÎó"+"\n";
+		AfxMessageBox("????????????§Ö??????????",MB_OK|MB_ICONINFORMATION);
+		txt0=txt0+"????????"+"\n";
 
 	}
 	return  txt0;
@@ -756,23 +754,17 @@ CString CCordtrans::Differencebetween(CCrdNum crd1, CCrdNum crd2)//¼ÆËãµãÎ»Æ«²î
 
 }
 
-void CCordtrans::save()//±£´æÎÄ¼ş
+void CCordtrans::Save()//???????
 {
-// 	CFileDialog dlg(FALSE,"txt"); // ¶¨ÒåÒ»¸öÎÄ¼ş±£´æ¶Ô»°¿ò±äÁ¿
-// 	if(dlg.DoModal()==IDOK) 
-// 	{
-// 		CStdioFile File;
-// 		File.Open(dlg.GetFileName(),CFile.modeCreate|CFile::modeWrite|CFile::modeNoTruncate);
-// 		File.WriteString(txt);
-// 		File.Close();
-// 	}
+	//TODO
+
 
 }
 
 
-//½«»¡¶È×ª»¯Îª¶È
-//double radianÎªÊäÈëµÄ»¡¶È
-double CCordtrans::r2d( double radian)
+//????????????
+//double radian?????????
+double CCordtrans::R2D( double radian)
 {
 	double du,fen,miao;
 	if (radian>0.0)
@@ -793,20 +785,20 @@ double CCordtrans::r2d( double radian)
 }
 
 
-//¼ÆËã·½Ïò½Ç
-//CMatrix R0ÎªĞı×ª¾ØÕó
+//???????
+//CMatrix R0????????
 CMatrix CCordtrans::DirectionAngle(CMatrix R0)
 {
 	CMatrix Angle(3,3);
 	double radion=0.0;
-	int NumRows=R0.GetNumRows();//»ñÈ¡¾ØÕóµÄĞĞÊı
-	int NumColumns=R0.GetNumColumns();//»ñÈ¡¾ØÕóµÄÁĞÊı
+	int NumRows=R0.GetNumRows();//????????????
+	int NumColumns=R0.GetNumColumns();//????????????
 	for (int i=0;i<NumRows;i++)
 	{
 		for(int j=0;j<NumColumns;j++)
 		{
 			radion=acos(R0.GetElement(i,j));
-			Angle.SetElement(i,j,r2d(radion));
+			Angle.SetElement(i,j,R2D(radion));
 		}
 	}
 	return Angle;
@@ -819,33 +811,33 @@ CString CCordtrans::Print(CMatrix R0, CMatrix T0, CCrdNum crd3, CCrdNum crd4, CC
 	CString txt0="\n";
 	CCrdNum crd3to4;
 	Translate(R0,T0,crd3,crd3to4);
-	txt0=txt0+"Æ½ÒÆ²ÎÊı£º"+"\n";
+	txt0=txt0+"????????"+"\n";
 	txt0=txt0+T0.ToString("   ")+"\n";
 	txt0=txt0+"\n";
-	txt0=txt0+"Ğı×ª½Ç£º"+"\n";
+	txt0=txt0+"??????"+"\n";
 	txt0=txt0+AngleofSwing(R0)+"\n";
 	txt0=txt0+"\n";
-	txt0=txt0+"Ğı×ª¾ØÕó£º"+"\n";
+	txt0=txt0+"???????"+"\n";
 	txt0=txt0+R0.ToString("   ")+"\n";
 	txt0=txt0+"\n";
-	txt0=txt0+"×ø±ê×ª»»µÄ·½Ïò½Ç£¨DEG£©£º"+"\n";
+	txt0=txt0+"??????????????DEG????"+"\n";
 	txt0=txt0+DirectionAngle(R0).ToString("   ");
 	txt0=txt0+"\n"+"\n";
-	txt0=txt0+"²âÁ¿µã×ª»»µ½²Î¿¼×ø±êÏµÖĞµÄ×ø±ê£º"+"\n";
+	txt0=txt0+"????????????¦Ï???????§Ö?????"+"\n";
 	txt0=txt0+crd1to2.Printpoint()+"\n";
-	txt0=txt0+"µãÎ»Æ«²î£¨RMS£©£º"+"\n";
+	txt0=txt0+"??¦Ë???RMS????"+"\n";
 	txt0=txt0+Differencebetween(crd3to4,crd4);
 	return txt0;	
 }
 
-CString CCordtrans::AngleofSwing(CMatrix R0, double Rx, double Ry, double Rz)//¼ÆËãĞı×ª½Ç
+CString CCordtrans::AngleofSwing(CMatrix R0, double Rx, double Ry, double Rz)//?????????
 {
 	CString txt0="\n";
 	CString crx,cry,crz;
-	Rx=r2d(atan(-(R0.GetElement(1,2)/R0.GetElement(2,2))));
-	Ry=r2d(asin(R0.GetElement(0,2)));
-	Rz=r2d(atan(-(R0.GetElement(0,1)/R0.GetElement(0,0))));
-	crx.Format("%0.8lf",Rx);//Êä³öÈı¸öĞı×ª½Ç¶È
+	Rx=R2D(atan(-(R0.GetElement(1,2)/R0.GetElement(2,2))));
+	Ry=R2D(asin(R0.GetElement(0,2)));
+	Rz=R2D(atan(-(R0.GetElement(0,1)/R0.GetElement(0,0))));
+	crx.Format("%0.8lf",Rx);//?????????????
 	cry.Format("%0.8lf",Ry);
 	crz.Format("%0.8lf",Rz);
 	txt0=txt0+"Rx="+crx+"\n"+"Ry="+cry+"\n"+"Rz="+crz+"\n";
@@ -853,15 +845,15 @@ CString CCordtrans::AngleofSwing(CMatrix R0, double Rx, double Ry, double Rz)//¼
 	
 }
 
-CString CCordtrans::AngleofSwing(CMatrix R0)//¼ÆËãĞı×ª½Ç
+CString CCordtrans::AngleofSwing(CMatrix R0)//?????????
 {
 	CString txt0="\n";
 	CString crx,cry,crz;
 	double Rx,Ry,Rz;
-	Rx=r2d(atan(-(R0.GetElement(1,2)/R0.GetElement(2,2))));
-	Ry=r2d(asin(R0.GetElement(0,2)));
-	Rz=r2d(atan(-(R0.GetElement(0,1)/R0.GetElement(0,0))));
-	crx.Format("%0.8lf",Rx);//Êä³öÈı¸öĞı×ª½Ç¶È
+	Rx=R2D(atan(-(R0.GetElement(1,2)/R0.GetElement(2,2))));
+	Ry=R2D(asin(R0.GetElement(0,2)));
+	Rz=R2D(atan(-(R0.GetElement(0,1)/R0.GetElement(0,0))));
+	crx.Format("%0.8lf",Rx);//?????????????
 	cry.Format("%0.8lf",Ry);
 	crz.Format("%0.8lf",Rz);
 	txt0=txt0+"Rx="+crx+"\n"+"Ry="+cry+"\n"+"Rz="+crz+"\n";
@@ -869,11 +861,11 @@ CString CCordtrans::AngleofSwing(CMatrix R0)//¼ÆËãĞı×ª½Ç
 	
 }
 
-void CCordtrans::AngleofSwing(CMatrix R0, CString &Rx, CString &Ry, CString  &Rz)//¼ÆËãĞı×ª½Ç
+void CCordtrans::AngleofSwing(CMatrix R0, CString& Rx, CString& Ry, CString& Rz)//?????????
 {
 	
-	Rx.Format("%0.8lf",r2d(atan(-(R0.GetElement(1,2)/R0.GetElement(2,2)))));//Êä³öÈı¸öĞı×ª½Ç¶È
-	Ry.Format("%0.8lf",r2d(asin(R0.GetElement(0,2))));
-	Rz.Format("%0.8lf",r2d(atan(-(R0.GetElement(0,1)/R0.GetElement(0,0)))));	
+	Rx.Format("%0.8lf",R2D(atan(-(R0.GetElement(1,2)/R0.GetElement(2,2)))));//?????????????
+	Ry.Format("%0.8lf",R2D(asin(R0.GetElement(0,2))));
+	Rz.Format("%0.8lf",R2D(atan(-(R0.GetElement(0,1)/R0.GetElement(0,0)))));	
 }
 

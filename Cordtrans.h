@@ -81,7 +81,7 @@ public:
 	{
 		if (k>memNum)
 		{
-			AfxMessageBox("输入数据错误");
+			// AfxMessageBox("输入数据错误");
 			return;
 		}
 		else
@@ -100,7 +100,7 @@ public:
 	{
 		if (k>memNum)
 		{
-			AfxMessageBox("输入数据错误");
+			// AfxMessageBox("输入数据错误");
 			return;
 		}
 		else
@@ -156,7 +156,7 @@ public:
 		} 
 		else
 		{
-			AfxMessageBox("下标越界",MB_OK|MB_ICONINFORMATION);
+			// AfxMessageBox("下标越界",MB_OK|MB_ICONINFORMATION);
 			distance=-1;
 		}
 		
@@ -194,36 +194,61 @@ private:
 class CCordtrans  
 {
 public:
-	CString Freematch(CMatrix &R,CMatrix &T,CCrdNum &Coord1to2);
-	CString Initialmatch(CMatrix &R,CMatrix &T,CCrdNum &Coord1to2);
-	CString Pointnamematch(CMatrix &R,CMatrix &T,CCrdNum &Coord1to2);
-	CString Distancematch(CMatrix &R,CMatrix &T,CCrdNum &Coord1to2);
-	static void AngleofSwing(CMatrix R0, CString &Rx, CString &Ry, CString  &Rz);//计算旋转角 
-	CString AngleofSwing(CMatrix R0);//计算旋转角 
-	static CString AngleofSwing(CMatrix R0,double Rx,double Ry,double Rz);//计算旋转角 
+    //复制构造函数
+	CCordtrans(CCrdNum num1,CCrdNum num2);
+	CCordtrans();
+	//析构函数
+	virtual ~CCordtrans();
+	
+	CString FreeMatch(CMatrix& R,CMatrix& T,CCrdNum& Coord1to2);
+	CString InitialMatch(CMatrix& R,CMatrix& T,CCrdNum& Coord1to2);
+	CString PointNameMatch(CMatrix& R,CMatrix& T,CCrdNum& Coord1to2);
+	CString DistanceMatch(CMatrix& R,CMatrix& T,CCrdNum& Coord1to2);
+	//计算旋转角 
+	CString AngleofSwing(CMatrix R0);
+	//输出为字符串
 	CString Print(CMatrix R0,CMatrix T0,CCrdNum crd3,CCrdNum crd4,CCrdNum crd1to2);
-	void PrecisionCalPar(CMatrix &RX, CMatrix &TX);//精确计算参数
-	void PrecisionCalPar(CCrdNum crd1,CCrdNum crd2,CMatrix &RX, CMatrix &TX);//精确计算转换参数
-	static double r2d( double radian);//弧度转化为度
-	CMatrix DirectionAngle(CMatrix R0);//计算方向角
-	void save();//保存文件
-	CString Differencebetween(CCrdNum crd1,CCrdNum crd2);//计算点位偏差
-	CString Freematch(CCrdNum &Coord1to2);//自由匹配
-	void Distillpoint(CCrdNum &crd3,CCrdNum &crd4);//提取四个随机点
-	void Finddistancepoint(int FIGURE,CCrdNum &crd3, CCrdNum &crd4);//寻找距离符合一定阈值的点对
-	double Calthreshold(CCrdNum crd1,CCrdNum crd2);//计算阈值
-	CString Distancematch(CCrdNum &Coord1to2);//距离匹配
-	CString Initialmatch(CCrdNum &Coord1to2);//顺序匹配
-	CString Pointnamematch(CCrdNum &Coord1to2);//点名匹配
-	void Findsamename(CCrdNum crd1,CCrdNum crd2,CCrdNum &crd3,CCrdNum &crd4);//寻找同名点对
-	void Findsamename(CCrdNum &crd1,CCrdNum &crd2);//寻找同名点对
-	void CalPar(CCrdNum crd1,CCrdNum crd2,CMatrix &RX, CMatrix &TX);//计算转换参数
-	void CalPar(CMatrix &RX,CMatrix &TX);//计算转换参数
-	void Translate(CCrdNum &Coord1to2);//计算转换坐标
-	void Translate(CMatrix R0,CMatrix T0,CCrdNum crd1,CCrdNum &Coord1to2);//计算转换坐标 
-	CCordtrans(CCrdNum num1,CCrdNum num2);//复制构造函数
-	CCordtrans();//构造函数
-	virtual ~CCordtrans();//析构函数
+	//精确计算参数
+	void PrecisionCalPar(CMatrix& RX, CMatrix& TX);
+	//精确计算转换参数
+	void PrecisionCalPar(CCrdNum crd1,CCrdNum crd2,CMatrix& RX, CMatrix& TX);
+	//计算方向角
+	CMatrix DirectionAngle(CMatrix R0);
+	//保存文件
+	void Save();
+	//计算点位偏差
+	CString Differencebetween(CCrdNum crd1,CCrdNum crd2);
+	//自由匹配
+	CString FreeMatch(CCrdNum& Coord1to2);
+	//提取四个随机点
+	void DistillPoint(CCrdNum& crd3,CCrdNum& crd4);
+	//寻找距离符合一定阈值的点对
+	void FindDistancePoint(int FIGURE,CCrdNum& crd3, CCrdNum& crd4);
+	//计算阈值
+	double CalThreshold(CCrdNum crd1,CCrdNum crd2);
+	//距离匹配
+	CString DistanceMatch(CCrdNum& Coord1to2);
+	//顺序匹配
+	CString InitialMatch(CCrdNum& Coord1to2);
+	//点名匹配
+	CString PointNameMatch(CCrdNum& Coord1to2);
+	//寻找同名点对
+	void FindSameName(CCrdNum crd1,CCrdNum crd2,CCrdNum& crd3,CCrdNum& crd4);
+	//寻找同名点对
+	void FindSameName(CCrdNum& crd1,CCrdNum& crd2);
+	//计算转换参数
+	void CalPar(CCrdNum crd1,CCrdNum crd2,CMatrix &RX, CMatrix &TX);
+	void CalPar(CMatrix &RX,CMatrix &TX);
+	//计算转换坐标
+	void Translate(CCrdNum &Coord1to2);
+	void Translate(CMatrix R0,CMatrix T0,CCrdNum crd1,CCrdNum &Coord1to2);
+public:
+    //计算旋转角 
+	static void AngleofSwing(CMatrix R0, CString &Rx, CString &Ry, CString  &Rz);
+	static CString AngleofSwing(CMatrix R0,double Rx,double Ry,double Rz);
+	//弧度转化为度
+	static double R2D( double radian);
+
 
 private:
 	int Ncount1;//测量点个数
