@@ -304,7 +304,7 @@ void CCordtrans::FindSameName(CCrdNum& crd3, CCrdNum& crd4)
 	}
 	tes.Format("%d",Pcount);
 	tes=tes+"?????????????";
-	AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
+	// AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
 	crd3.Init(Pcount);
 	crd4.Init(Pcount);
 	int m=0;
@@ -342,7 +342,7 @@ void CCordtrans::FindSameName(CCrdNum crd1, CCrdNum crd2, CCrdNum& crd3, CCrdNum
 	}
 	tes.Format("%d",Pcount);
 	tes=tes+"?????????????";
-	AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
+	// AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
 	crd3.Init(Pcount);
 	crd4.Init(Pcount);
 	int m=0;
@@ -493,7 +493,7 @@ double CCordtrans::CalThreshold(CCrdNum crd1, CCrdNum crd2)//??????????
 	} 
 	else
 	{
-		AfxMessageBox("????????????",MB_OK|MB_ICONINFORMATION);
+		// AfxMessageBox("????????????",MB_OK|MB_ICONINFORMATION);
 		
 	}
 	return threshold;
@@ -549,7 +549,7 @@ void CCordtrans::FindDistancePoint(int FIGURE,CCrdNum& crd3, CCrdNum& crd4)//???
 	}
 	tes.Format("%d",scount);
 	tes=tes+"?????????????";
-	AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
+	// AfxMessageBox(tes,MB_OK|MB_ICONINFORMATION);
 	crd3.Init(scount);
 	crd4.Init(scount);
 	int k=0;
@@ -745,7 +745,7 @@ CString CCordtrans::Differencebetween(CCrdNum crd1, CCrdNum crd2)//?????¦Ë???
 	}
 	else
 	{
-		AfxMessageBox("????????????§Ö??????????",MB_OK|MB_ICONINFORMATION);
+		// AfxMessageBox("????????????§Ö??????????",MB_OK|MB_ICONINFORMATION);
 		txt0=txt0+"????????"+"\n";
 
 	}
