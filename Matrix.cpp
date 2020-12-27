@@ -7,7 +7,6 @@
 
 #include "Matrix.h"
 
-
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -60,20 +59,20 @@ BOOL CMatrix::Init(int nRows, int nCols)
 
 	m_nNumRows = nRows;
 	m_nNumColumns = nCols;
-	int nSize = nCols*nRows;
+	int nSize = nCols * nRows;
 	if (nSize < 0)
 		return FALSE;
 
 	// 分配内存
 	m_pData = new double[nSize];
-	
+
 	if (m_pData == NULL)
-		return FALSE;					// 内存分配失败
+		return FALSE; // 内存分配失败
 	if (IsBadReadPtr(m_pData, sizeof(double) * nSize))
 		return FALSE;
 
 	// 将各元素值置0
-		
+
 	memset(m_pData, 0, sizeof(double) * nSize);
 
 	return TRUE;
@@ -94,12 +93,11 @@ CMatrix::CMatrix(int nRows, int nCols, double value[])
 	BOOL bSuccess = Init(m_nNumRows, m_nNumColumns);
 	ASSERT(bSuccess);
 
-    /********************************************************/
+	/********************************************************/
 
 	SetData(value);
 
 	/********************************************************/
-
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -114,9 +112,9 @@ CMatrix::CMatrix(int nRows, int nCols, double value[])
 void CMatrix::SetData(double value[])
 {
 	// empty the memory
-	memset(m_pData, 0, sizeof(double) * m_nNumColumns*m_nNumRows);
+	memset(m_pData, 0, sizeof(double) * m_nNumColumns * m_nNumRows);
 	// copy data
-	memcpy(m_pData, value, sizeof(double)*m_nNumColumns*m_nNumRows);
+	memcpy(m_pData, value, sizeof(double) * m_nNumColumns * m_nNumRows);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -131,7 +129,7 @@ CMatrix::CMatrix(int nSize)
 	m_nNumColumns = nSize;
 	m_pData = NULL;
 	BOOL bSuccess = Init(nSize, nSize);
-	ASSERT (bSuccess);
+	ASSERT(bSuccess);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -147,7 +145,7 @@ CMatrix::CMatrix(int nSize, double value[])
 	m_nNumColumns = nSize;
 	m_pData = NULL;
 	BOOL bSuccess = Init(nSize, nSize);
-	ASSERT (bSuccess);
+	ASSERT(bSuccess);
 
 	SetData(value);
 }
@@ -167,7 +165,7 @@ CMatrix::CMatrix(const CMatrix& other)
 	ASSERT(bSuccess);
 
 	// copy the pointer
-	memcpy(m_pData, other.m_pData, sizeof(double)*m_nNumColumns*m_nNumRows);
+	memcpy(m_pData, other.m_pData, sizeof(double) * m_nNumColumns * m_nNumRows);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -182,8 +180,6 @@ CMatrix::~CMatrix()
 	}
 }
 
-
-
 //////////////////////////////////////////////////////////////////////
 // 将方阵初始化为单位矩阵
 //
@@ -194,11 +190,11 @@ CMatrix::~CMatrix()
 //////////////////////////////////////////////////////////////////////
 BOOL CMatrix::MakeUnitMatrix(int nSize)
 {
-	if (! Init(nSize, nSize))
+	if (!Init(nSize, nSize))
 		return FALSE;
 
-	for (int i=0; i<nSize; ++i)
-		for (int j=0; j<nSize; ++j)
+	for (int i = 0; i < nSize; ++i)
+		for (int j = 0; j < nSize; ++j)
 			if (i == j)
 				SetElement(i, j, 1);
 
@@ -231,8 +227,8 @@ BOOL CMatrix::FromString(CString s, const CString& sDelim /*= " "*/, BOOL bLineB
 		CString sRow;
 		while (tk.Next(sRow))
 		{
-			sRow.TrimLeft();     //除去左边的空格
-			sRow.TrimRight();    //除去右边的空格
+			sRow.TrimLeft();  //除去左边的空格
+			sRow.TrimRight(); //除去右边的空格
 			if (sRow.IsEmpty())
 				break;
 
@@ -253,12 +249,12 @@ BOOL CMatrix::FromString(CString s, const CString& sDelim /*= " "*/, BOOL bLineB
 		}
 
 		// 初始化矩阵
-		if (! Init(m_nNumRows, m_nNumColumns))
+		if (!Init(m_nNumRows, m_nNumColumns))
 			return FALSE;
 
 		// 设置值
 		POSITION pos = ListRow.GetHeadPosition();
-		for (int i=0; i<m_nNumRows; i++)
+		for (int i = 0; i < m_nNumRows; i++)
 		{
 			sRow = ListRow.GetNext(pos);
 			int j = 0;
@@ -274,13 +270,13 @@ BOOL CMatrix::FromString(CString s, const CString& sDelim /*= " "*/, BOOL bLineB
 
 		return TRUE;
 	}
-	
+
 	// 不分行（单行）处理
 
 	CTokenizer tk(s, sDelim);
 
 	CString sElement;
-	
+
 	// 行数
 	tk.Next(sElement);
 	sElement.TrimLeft();
@@ -294,7 +290,7 @@ BOOL CMatrix::FromString(CString s, const CString& sDelim /*= " "*/, BOOL bLineB
 	m_nNumColumns = atoi(sElement);
 
 	// 初始化矩阵
-	if (! Init(m_nNumRows, m_nNumColumns))
+	if (!Init(m_nNumRows, m_nNumColumns))
 		return FALSE;
 
 	// 设置值
@@ -329,11 +325,11 @@ BOOL CMatrix::FromString(CString s, const CString& sDelim /*= " "*/, BOOL bLineB
 //////////////////////////////////////////////////////////////////////
 CString CMatrix::ToString(const CString& sDelim /*= " "*/, BOOL bLineBreak /*= TRUE*/) const
 {
-	CString s="";
+	CString s = "";
 
-	for (int i=0; i<m_nNumRows; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 	{
-		for (int j=0; j<m_nNumColumns; ++j)
+		for (int j = 0; j < m_nNumColumns; ++j)
 		{
 			CString ss;
 			ss.Format("%0.8lf", GetElement(i, j));
@@ -341,17 +337,17 @@ CString CMatrix::ToString(const CString& sDelim /*= " "*/, BOOL bLineBreak /*= T
 
 			if (bLineBreak)
 			{
-				if (j != m_nNumColumns-1)
+				if (j != m_nNumColumns - 1)
 					s += sDelim;
 			}
 			else
 			{
-				if (i != m_nNumRows-1 || j != m_nNumColumns-1)
+				if (i != m_nNumRows - 1 || j != m_nNumColumns - 1)
 					s += sDelim;
 			}
 		}
 		if (bLineBreak)
-			if (i != m_nNumRows-1)
+			if (i != m_nNumRows - 1)
 				s += "\r\n";
 	}
 
@@ -374,12 +370,12 @@ CString CMatrix::RowToString(int nRow, const CString& sDelim /*= " "*/) const
 	if (nRow >= m_nNumRows)
 		return s;
 
-	for (int j=0; j<m_nNumColumns; ++j)
+	for (int j = 0; j < m_nNumColumns; ++j)
 	{
 		CString ss;
 		ss.Format("%lf", GetElement(nRow, j));
 		s += ss;
-		if (j != m_nNumColumns-1)
+		if (j != m_nNumColumns - 1)
 			s += sDelim;
 	}
 
@@ -402,19 +398,17 @@ CString CMatrix::ColToString(int nCol, const CString& sDelim /*= " "*/) const
 	if (nCol >= m_nNumColumns)
 		return s;
 
-	for (int i=0; i<m_nNumRows; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 	{
 		CString ss;
 		ss.Format("%lf", GetElement(i, nCol));
 		s += ss;
-		if (i != m_nNumRows-1)
+		if (i != m_nNumRows - 1)
 			s += sDelim;
 	}
 
 	return s;
 }
-
-
 
 //////////////////////////////////////////////////////////////////////
 // 设置指定元素的值
@@ -429,10 +423,10 @@ CString CMatrix::ColToString(int nCol, const CString& sDelim /*= " "*/) const
 BOOL CMatrix::SetElement(int nRow, int nCol, double value)
 {
 	if (nCol < 0 || nCol >= m_nNumColumns || nRow < 0 || nRow >= m_nNumRows)
-		return FALSE;						// array bounds error
+		return FALSE; // array bounds error
 	if (m_pData == NULL)
-		return FALSE;							// bad pointer error
-	
+		return FALSE; // bad pointer error
+
 	m_pData[nCol + nRow * m_nNumColumns] = value;
 
 	return TRUE;
@@ -449,9 +443,9 @@ BOOL CMatrix::SetElement(int nRow, int nCol, double value)
 //////////////////////////////////////////////////////////////////////
 double CMatrix::GetElement(int nRow, int nCol) const
 {
-	ASSERT(nCol >= 0 && nCol < m_nNumColumns && nRow >= 0 && nRow < m_nNumRows); // array bounds error
-	ASSERT(m_pData);							// bad pointer error
-	return m_pData[nCol + nRow * m_nNumColumns] ;
+	ASSERT(nCol >= 0 && nCol < m_nNumColumns&& nRow >= 0 && nRow < m_nNumRows); // array bounds error
+	ASSERT(m_pData);															 // bad pointer error
+	return m_pData[nCol + nRow * m_nNumColumns];
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -461,7 +455,7 @@ double CMatrix::GetElement(int nRow, int nCol) const
 //
 // 返回值：int 型，矩阵的列数
 //////////////////////////////////////////////////////////////////////
-int	CMatrix::GetNumColumns() const
+int CMatrix::GetNumColumns() const
 {
 	return m_nNumColumns;
 }
@@ -473,7 +467,7 @@ int	CMatrix::GetNumColumns() const
 //
 // 返回值：int 型，矩阵的行数
 //////////////////////////////////////////////////////////////////////
-int	CMatrix::GetNumRows() const
+int CMatrix::GetNumRows() const
 {
 	return m_nNumRows;
 }
@@ -507,7 +501,7 @@ int CMatrix::GetRowVector(int nRow, double* pVector) const
 	pVector = new double[m_nNumColumns];
 	ASSERT(pVector != NULL);
 
-	for (int j=0; j<m_nNumColumns; ++j)
+	for (int j = 0; j < m_nNumColumns; ++j)
 		pVector[j] = GetElement(nRow, j);
 
 	return m_nNumColumns;
@@ -530,7 +524,7 @@ int CMatrix::GetColVector(int nCol, double* pVector) const
 	pVector = new double[m_nNumRows];
 	ASSERT(pVector != NULL);
 
-	for (int i=0; i<m_nNumRows; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 		pVector[i] = GetElement(i, nCol);
 
 	return m_nNumRows;
@@ -552,11 +546,11 @@ CMatrix& CMatrix::operator=(const CMatrix& other)
 		ASSERT(bSuccess);
 
 		// copy the pointer
-		memcpy(m_pData, other.m_pData, sizeof(double)*m_nNumColumns*m_nNumRows);
+		memcpy(m_pData, other.m_pData, sizeof(double) * m_nNumColumns * m_nNumRows);
 	}
 
 	// finally return a reference to ourselves
-	return *this ;
+	return *this;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -573,9 +567,9 @@ BOOL CMatrix::operator==(const CMatrix& other) const
 	if (m_nNumColumns != other.GetNumColumns() || m_nNumRows != other.GetNumRows())
 		return FALSE;
 
-	for (int i=0; i<m_nNumRows; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 	{
-		for (int j=0; j<m_nNumColumns; ++j)
+		for (int j = 0; j < m_nNumColumns; ++j)
 		{
 			if (GetElement(i, j) != other.GetElement(i, j))
 				return FALSE;
@@ -606,21 +600,21 @@ BOOL CMatrix::operator!=(const CMatrix& other) const
 //
 // 返回值：CMatrix型，指定矩阵与other相加之和
 //////////////////////////////////////////////////////////////////////
-CMatrix	CMatrix::operator+(const CMatrix& other) const
+CMatrix CMatrix::operator+(const CMatrix& other) const
 {
 	// 首先检查行列数是否相等
-	ASSERT (m_nNumColumns == other.GetNumColumns() && m_nNumRows == other.GetNumRows());
+	ASSERT(m_nNumColumns == other.GetNumColumns() && m_nNumRows == other.GetNumRows());
 
 	// 构造结果矩阵
-	CMatrix	result(*this) ;		// 拷贝构造
+	CMatrix result(*this); // 拷贝构造
 	// 矩阵加法
-	for (int i = 0 ; i < m_nNumRows ; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 	{
-		for (int j = 0 ; j <  m_nNumColumns; ++j)
-			result.SetElement(i, j, result.GetElement(i, j) + other.GetElement(i, j)) ;
+		for (int j = 0; j < m_nNumColumns; ++j)
+			result.SetElement(i, j, result.GetElement(i, j) + other.GetElement(i, j));
 	}
 
-	return result ;
+	return result;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -631,21 +625,21 @@ CMatrix	CMatrix::operator+(const CMatrix& other) const
 //
 // 返回值：CMatrix型，指定矩阵与other相减之差
 //////////////////////////////////////////////////////////////////////
-CMatrix	CMatrix::operator-(const CMatrix& other) const
+CMatrix CMatrix::operator-(const CMatrix& other) const
 {
 	// 首先检查行列数是否相等
-	ASSERT (m_nNumColumns == other.GetNumColumns() && m_nNumRows == other.GetNumRows());
+	ASSERT(m_nNumColumns == other.GetNumColumns() && m_nNumRows == other.GetNumRows());
 
 	// 构造目标矩阵
-	CMatrix	result(*this) ;		// copy ourselves
+	CMatrix result(*this); // copy ourselves
 	// 进行减法操作
-	for (int i = 0 ; i < m_nNumRows ; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 	{
-		for (int j = 0 ; j <  m_nNumColumns; ++j)
-			result.SetElement(i, j, result.GetElement(i, j) - other.GetElement(i, j)) ;
+		for (int j = 0; j < m_nNumColumns; ++j)
+			result.SetElement(i, j, result.GetElement(i, j) - other.GetElement(i, j));
 	}
 
-	return result ;
+	return result;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -656,18 +650,18 @@ CMatrix	CMatrix::operator-(const CMatrix& other) const
 //
 // 返回值：CMatrix型，指定矩阵与value相乘之积
 //////////////////////////////////////////////////////////////////////
-CMatrix	CMatrix::operator*(double value) const
+CMatrix CMatrix::operator*(double value) const
 {
 	// 构造目标矩阵
-	CMatrix	result(*this) ;		// copy ourselves
+	CMatrix result(*this); // copy ourselves
 	// 进行数乘
-	for (int i = 0 ; i < m_nNumRows ; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 	{
-		for (int j = 0 ; j <  m_nNumColumns; ++j)
-			result.SetElement(i, j, result.GetElement(i, j) * value) ;
+		for (int j = 0; j < m_nNumColumns; ++j)
+			result.SetElement(i, j, result.GetElement(i, j) * value);
 	}
 
-	return result ;
+	return result;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -678,13 +672,13 @@ CMatrix	CMatrix::operator*(double value) const
 //
 // 返回值：CMatrix型，指定矩阵与other相乘之积
 //////////////////////////////////////////////////////////////////////
-CMatrix	CMatrix::operator*(const CMatrix& other) const
+CMatrix CMatrix::operator*(const CMatrix& other) const
 {
 	// 首先检查行列数是否符合要求
-	ASSERT (m_nNumColumns == other.GetNumRows());
+	ASSERT(m_nNumColumns == other.GetNumRows());
 
 	// construct the object we are going to return
-	CMatrix	result(m_nNumRows, other.GetNumColumns()) ;
+	CMatrix result(m_nNumRows, other.GetNumColumns());
 
 	// 矩阵乘法，即
 	//
@@ -692,22 +686,22 @@ CMatrix	CMatrix::operator*(const CMatrix& other) const
 	// [D][E][F] * [I][J] =   [D*G + E*I + F*K][D*H + E*J + F*L]
 	//             [K][L]
 	//
-	double	value ;
-	for (int i = 0 ; i < result.GetNumRows() ; ++i)
+	double value;
+	for (int i = 0; i < result.GetNumRows(); ++i)
 	{
-		for (int j = 0 ; j < other.GetNumColumns() ; ++j)
+		for (int j = 0; j < other.GetNumColumns(); ++j)
 		{
-			value = 0.0 ;
-			for (int k = 0 ; k < m_nNumColumns ; ++k)
+			value = 0.0;
+			for (int k = 0; k < m_nNumColumns; ++k)
 			{
-				value += GetElement(i, k) * other.GetElement(k, j) ;
+				value += GetElement(i, k) * other.GetElement(k, j);
 			}
 
-			result.SetElement(i, j, value) ;
+			result.SetElement(i, j, value);
 		}
 	}
 
-	return result ;
+	return result;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -720,13 +714,13 @@ CMatrix	CMatrix::operator*(const CMatrix& other) const
 CMatrix CMatrix::Transpose() const
 {
 	// 构造目标矩阵
-	CMatrix	Trans(m_nNumColumns, m_nNumRows);
+	CMatrix Trans(m_nNumColumns, m_nNumRows);
 
 	// 转置各元素
-	for (int i = 0 ; i < m_nNumRows ; ++i)
+	for (int i = 0; i < m_nNumRows; ++i)
 	{
-		for (int j = 0 ; j < m_nNumColumns ; ++j)
-			Trans.SetElement(j, i, GetElement(i, j)) ;
+		for (int j = 0; j < m_nNumColumns; ++j)
+			Trans.SetElement(j, i, GetElement(i, j));
 	}
 
 	return Trans;
@@ -741,33 +735,34 @@ CMatrix CMatrix::Transpose() const
 //////////////////////////////////////////////////////////////////////
 BOOL CMatrix::InvertGaussJordan()
 {
-	int *pnRow, *pnCol,i,j,k,l,u,v;
-    double d = 0, p = 0;
+	int* pnRow, * pnCol, i, j, k, l, u, v;
+	double d = 0, p = 0;
 
 	// 分配内存
-    pnRow = new int[m_nNumColumns];
-    pnCol = new int[m_nNumColumns];
+	pnRow = new int[m_nNumColumns];
+	pnCol = new int[m_nNumColumns];
 	if (pnRow == NULL || pnCol == NULL)
 		return FALSE;
 
 	// 消元
-    for (k=0; k<=m_nNumColumns-1; k++)
-    { 
-		d=0.0;
-        for (i=k; i<=m_nNumColumns-1; i++)
+	for (k = 0; k <= m_nNumColumns - 1; k++)
+	{
+		d = 0.0;
+		for (i = k; i <= m_nNumColumns - 1; i++)
 		{
-			for (j=k; j<=m_nNumColumns-1; j++)
-			{ 
-				l=i*m_nNumColumns+j; p=fabs(m_pData[l]);
-				if (p>d) 
-				{ 
-					d=p; 
-					pnRow[k]=i; 
-					pnCol[k]=j;
+			for (j = k; j <= m_nNumColumns - 1; j++)
+			{
+				l = i * m_nNumColumns + j;
+				p = fabs(m_pData[l]);
+				if (p > d)
+				{
+					d = p;
+					pnRow[k] = i;
+					pnCol[k] = j;
 				}
 			}
 		}
-        
+
 		// 失败
 		if (d == 0.0)
 		{
@@ -776,93 +771,93 @@ BOOL CMatrix::InvertGaussJordan()
 			return FALSE;
 		}
 
-        if (pnRow[k] != k)
+		if (pnRow[k] != k)
 		{
-			for (j=0; j<=m_nNumColumns-1; j++)
-			{ 
-				u=k*m_nNumColumns+j; 
-				v=pnRow[k]*m_nNumColumns+j;
-				p=m_pData[u]; 
-				m_pData[u]=m_pData[v]; 
-				m_pData[v]=p;
+			for (j = 0; j <= m_nNumColumns - 1; j++)
+			{
+				u = k * m_nNumColumns + j;
+				v = pnRow[k] * m_nNumColumns + j;
+				p = m_pData[u];
+				m_pData[u] = m_pData[v];
+				m_pData[v] = p;
 			}
 		}
-        
+
 		if (pnCol[k] != k)
 		{
-			for (i=0; i<=m_nNumColumns-1; i++)
-            { 
-				u=i*m_nNumColumns+k; 
-				v=i*m_nNumColumns+pnCol[k];
-				p=m_pData[u]; 
-				m_pData[u]=m_pData[v]; 
-				m_pData[v]=p;
-            }
+			for (i = 0; i <= m_nNumColumns - 1; i++)
+			{
+				u = i * m_nNumColumns + k;
+				v = i * m_nNumColumns + pnCol[k];
+				p = m_pData[u];
+				m_pData[u] = m_pData[v];
+				m_pData[v] = p;
+			}
 		}
 
-        l=k*m_nNumColumns+k;
-        m_pData[l]=1.0/m_pData[l];
-        for (j=0; j<=m_nNumColumns-1; j++)
+		l = k * m_nNumColumns + k;
+		m_pData[l] = 1.0 / m_pData[l];
+		for (j = 0; j <= m_nNumColumns - 1; j++)
 		{
 			if (j != k)
-            { 
-				u=k*m_nNumColumns+j; 
-				m_pData[u]=m_pData[u]*m_pData[l];
-			}
-		}
-
-        for (i=0; i<=m_nNumColumns-1; i++)
-		{
-			if (i!=k)
 			{
-				for (j=0; j<=m_nNumColumns-1; j++)
+				u = k * m_nNumColumns + j;
+				m_pData[u] = m_pData[u] * m_pData[l];
+			}
+		}
+
+		for (i = 0; i <= m_nNumColumns - 1; i++)
+		{
+			if (i != k)
+			{
+				for (j = 0; j <= m_nNumColumns - 1; j++)
 				{
-					if (j!=k)
-					{ 
-						u=i*m_nNumColumns+j;
-						m_pData[u]=m_pData[u]-m_pData[i*m_nNumColumns+k]*m_pData[k*m_nNumColumns+j];
+					if (j != k)
+					{
+						u = i * m_nNumColumns + j;
+						m_pData[u] = m_pData[u] - m_pData[i * m_nNumColumns + k] * m_pData[k * m_nNumColumns + j];
 					}
-                }
+				}
 			}
 		}
 
-        for (i=0; i<=m_nNumColumns-1; i++)
+		for (i = 0; i <= m_nNumColumns - 1; i++)
 		{
-			if (i!=k)
-            { 
-				u=i*m_nNumColumns+k; 
-				m_pData[u]=-m_pData[u]*m_pData[l];
+			if (i != k)
+			{
+				u = i * m_nNumColumns + k;
+				m_pData[u] = -m_pData[u] * m_pData[l];
 			}
 		}
-    }
+	}
 
-    // 调整恢复行列次序
-    for (k=m_nNumColumns-1; k>=0; k--)
-    { 
-		if (pnCol[k]!=k)
+	// 调整恢复行列次序
+	for (k = m_nNumColumns - 1; k >= 0; k--)
+	{
+		if (pnCol[k] != k)
 		{
-			for (j=0; j<=m_nNumColumns-1; j++)
-            { 
-				u=k*m_nNumColumns+j; 
-				v=pnCol[k]*m_nNumColumns+j;
-				p=m_pData[u]; 
-				m_pData[u]=m_pData[v]; 
-				m_pData[v]=p;
-            }
+			for (j = 0; j <= m_nNumColumns - 1; j++)
+			{
+				u = k * m_nNumColumns + j;
+				v = pnCol[k] * m_nNumColumns + j;
+				p = m_pData[u];
+				m_pData[u] = m_pData[v];
+				m_pData[v] = p;
+			}
 		}
 
-        if (pnRow[k]!=k)
+		if (pnRow[k] != k)
 		{
-			for (i=0; i<=m_nNumColumns-1; i++)
-            { 
-				u=i*m_nNumColumns+k; 
-				v=i*m_nNumColumns+pnRow[k];
-				p=m_pData[u]; 
-				m_pData[u]=m_pData[v]; 
-				m_pData[v]=p;
-            }
+			for (i = 0; i <= m_nNumColumns - 1; i++)
+			{
+				u = i * m_nNumColumns + k;
+				v = i * m_nNumColumns + pnRow[k];
+				p = m_pData[u];
+				m_pData[u] = m_pData[v];
+				m_pData[v] = p;
+			}
 		}
-    }
+	}
 
 	// 清理内存
 	delete[] pnRow;
@@ -872,7 +867,6 @@ BOOL CMatrix::InvertGaussJordan()
 	return TRUE;
 }
 
-
 //////////////////////////////////////////////////////////////////////
 // 对称正定矩阵的求逆
 //
@@ -881,58 +875,46 @@ BOOL CMatrix::InvertGaussJordan()
 // 返回值：BOOL型，求逆是否成功
 //////////////////////////////////////////////////////////////////////
 BOOL CMatrix::InvertSsgj()
-{ 
-	int i, j ,k, m;
-    double w, g, *pTmp;
+{
+	int i, j, k, m;
+	double w, g, * pTmp;
 
 	// 临时内存
-    pTmp = new double[m_nNumColumns];
+	pTmp = new double[m_nNumColumns];
 
 	// 逐列处理
-    for (k=0; k<=m_nNumColumns-1; k++)
-    { 
-		w=m_pData[0];
-        if (w == 0.0)
-        { 
+	for (k = 0; k <= m_nNumColumns - 1; k++)
+	{
+		w = m_pData[0];
+		if (w == 0.0)
+		{
 			delete[] pTmp;
 			return FALSE;
 		}
 
-        m=m_nNumColumns-k-1;
-        for (i=1; i<=m_nNumColumns-1; i++)
-        { 
-			g=m_pData[i*m_nNumColumns]; 
-			pTmp[i]=g/w;
-            if (i<=m) 
-				pTmp[i]=-pTmp[i];
-            for (j=1; j<=i; j++)
-              m_pData[(i-1)*m_nNumColumns+j-1]=m_pData[i*m_nNumColumns+j]+g*pTmp[j];
-        }
+		m = m_nNumColumns - k - 1;
+		for (i = 1; i <= m_nNumColumns - 1; i++)
+		{
+			g = m_pData[i * m_nNumColumns];
+			pTmp[i] = g / w;
+			if (i <= m)
+				pTmp[i] = -pTmp[i];
+			for (j = 1; j <= i; j++)
+				m_pData[(i - 1) * m_nNumColumns + j - 1] = m_pData[i * m_nNumColumns + j] + g * pTmp[j];
+		}
 
-        m_pData[m_nNumColumns*m_nNumColumns-1]=1.0/w;
-        for (i=1; i<=m_nNumColumns-1; i++)
-			m_pData[(m_nNumColumns-1)*m_nNumColumns+i-1]=pTmp[i];
-    }
+		m_pData[m_nNumColumns * m_nNumColumns - 1] = 1.0 / w;
+		for (i = 1; i <= m_nNumColumns - 1; i++)
+			m_pData[(m_nNumColumns - 1) * m_nNumColumns + i - 1] = pTmp[i];
+	}
 
 	// 行列调整
-    for (i=0; i<=m_nNumColumns-2; i++)
-		for (j=i+1; j<=m_nNumColumns-1; j++)
-			m_pData[i*m_nNumColumns+j]=m_pData[j*m_nNumColumns+i];
+	for (i = 0; i <= m_nNumColumns - 2; i++)
+		for (j = i + 1; j <= m_nNumColumns - 1; j++)
+			m_pData[i * m_nNumColumns + j] = m_pData[j * m_nNumColumns + i];
 
 	// 临时内存清理
 	delete[] pTmp;
 
 	return TRUE;
 }
-
-              
-
-
-
-
-
-
-
-
-
-
